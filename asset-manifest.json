@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.js": "/bishen-wallet/static/js/main.1fe77abe.chunk.js",
+    "main.js.map": "/bishen-wallet/static/js/main.1fe77abe.chunk.js.map",
+    "runtime-main.js": "/bishen-wallet/static/js/runtime-main.a731d9aa.js",
+    "runtime-main.js.map": "/bishen-wallet/static/js/runtime-main.a731d9aa.js.map",
+    "static/js/2.69aae574.chunk.js": "/bishen-wallet/static/js/2.69aae574.chunk.js",
+    "static/js/2.69aae574.chunk.js.map": "/bishen-wallet/static/js/2.69aae574.chunk.js.map",
+    "index.html": "/bishen-wallet/index.html",
+    "precache-manifest.56f3bd71b52d21d735c242e68895a61f.js": "/bishen-wallet/precache-manifest.56f3bd71b52d21d735c242e68895a61f.js",
+    "service-worker.js": "/bishen-wallet/service-worker.js",
+    "static/js/2.69aae574.chunk.js.LICENSE": "/bishen-wallet/static/js/2.69aae574.chunk.js.LICENSE",
+    "static/media/bgImg.jpg": "/bishen-wallet/static/media/bgImg.b6c409a6.jpg",
+    "static/media/ethereum.png": "/bishen-wallet/static/media/ethereum.1909e591.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a731d9aa.js",
+    "static/js/2.69aae574.chunk.js",
+    "static/js/main.1fe77abe.chunk.js"
+  ]
+}
