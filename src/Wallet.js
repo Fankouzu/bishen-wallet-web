@@ -1,105 +1,128 @@
 import React, { Component } from 'react'
-import CssBaseline from '@material-ui/core/CssBaseline'
+import Web3 from 'web3'
+import cookie from 'react-cookies'
 import Toolbar from './components/Toolbar'
 import MyDrawer from './components/MyDrawer'
-import cookie from 'react-cookies'
-import {aesDecrypt} from './utils/Aes'
-import {mnemonicToAddress,validateMnemonic} from './utils/Tools'
-import Web3 from 'web3'
+import { networks } from './utils/networks'
+import AssetDetail from './components/AssetDetail'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import { mnemonicToAddress,getTxList } from './utils/Tools'
+import { validatePasswordMnemonic, getAccounts } from './utils/Tools'
+
 const createInfuraProvider = require('eth-json-rpc-infura/src/createProvider')
 const Ethjs = require('ethjs')
 const web3 = new Web3()
 
-const provider = createInfuraProvider({ network: 'mainnet' })
-const eth = new Ethjs(provider)
-
 class Wallet extends Component {
     constructor(props) {
-        super(props);
-        this.state = { 
-            open:false, 
-            password:'',
-            accounts:[],
-            networks:[],
-            network:'',
-            avatarMenu:null
+        super(props)
+        let password = cookie.load('password')
+        let encrypt = localStorage.getItem("encrypt")
+        let mnemonic = validatePasswordMnemonic(password, encrypt)
+
+        if (!mnemonic) {
+            window.location.href = "./"
+        }
+
+        this.state = {
+            open: false,
+            password: '',
+            accounts: getAccounts(mnemonic),
+            networks: networks,
+            avatarMenu: null,
+            mnemonic: mnemonic,
+            currentAccount: 0,
+            networkId:0,
+            txlist:[]
         }
     }
-    setOpen(boolean){
-        this.setState({open:boolean})
-    }
-    handleDrawerOpen = () =>{
-        this.setOpen(true)
-    }
-    handleDrawerClose = () =>{
-        this.setOpen(false)
-    }
-    lockWallet = () =>{
-        cookie.remove('password', { path: '/' })
-        window.location.href="/"
-    }
+
     toggleDrawer = () => event => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-          return;
+            return
         }
         let open = this.state.open
-        this.setState({open: !open });
+        this.setState({ open: !open })
     }
-    handleChange = event => {
-        this.setState({network: event.target.value });
+    componentDidMount() {
+        this.getBalance(this.state.networkId)
     }
-    componentDidMount(){
-        let password = cookie.load('password') 
-        let encrypt = localStorage.getItem("encrypt")
-        if(!password || !encrypt){
-            console.log("encrypt || password Error!")
-            window.location.href="/"
-        }else{
-            var mnemonic = aesDecrypt(encrypt,password)
-            console.log('mnemonic:' + mnemonic)
-            var bool = validateMnemonic(mnemonic)
-            if(!bool){
-                console.log("Mnemonic Error!")
-                window.location.href="./"
-            }else{
-                let accounts = []
-                for(var i=0;i<10;i++){
-                    accounts.push(mnemonicToAddress(mnemonic,i))
+    
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextState.currentAccount !== this.state.currentAccount 
+        || nextState.accounts !== this.state.accounts 
+        || nextState.txlist !== this.state.txlist
+        || nextState.open !== this.state.open
+        || nextState.networkId !== this.state.networkId
+    }
+    getBalance = (networkId) => {
+        let accounts = []
+        let mnemonic = this.state.mnemonic
+        let that = this
+        let networkName = this.state.networks[networkId].nameEN
+        let provider = createInfuraProvider({ network: networkName })
+        let eth = new Ethjs(provider)
+        this.setState({txlist:[]})
+        for (let i = 0; i < 10; i++) {
+            let address = mnemonicToAddress(mnemonic, i)
+            eth.getBalance(address).then(function (res) {
+                let balance = web3.utils.fromWei(res, 'ether').toString()
+                accounts[i] = {
+                    address: address,
+                    balance: balance
                 }
-                this.setState({accounts:accounts})
-                console.log(accounts)
-                console.log(eth)
-                eth.getBalance(accounts[0]).then(function(balance){
-                    console.log(balance.toString())
-                    console.log(web3.utils.fromWei(balance,'ether').toString())
-                })
-            }
+                if (accounts.length === 10) {
+                    that.setState({ accounts: accounts,networkId:networkId })
+                    that.getTxList(that.state.currentAccount)
+                }
+            })
         }
-        let networks = []
-        networks[1] = '以太坊主网络'
-        networks[3] = 'Ropsten测试网络'
-        networks[4] = 'Rinkeby测试网络'
-        networks[5] = 'Goeli测试网络'
-        networks[42] = 'Kovan测试网络'
-        this.setState({networks:networks,network:1})
     }
-    render() { 
+    getTxList = (currentAccount) => {
+        let networkName = this.state.networks[this.state.networkId].nameEN
+        if(this.state.accounts[currentAccount].address!==undefined){
+            let address = this.state.accounts[currentAccount].address
+            let that = this
+            getTxList(networkName,address).then(function(result){
+                that.setState({txlist:result})
+            })
+        }else{
+            window.location.reload()
+        }
+    }
+    choseAccount = (event) => {
+        let accountsIndex = event.currentTarget.attributes.index.nodeValue
+        this.setState({ currentAccount: accountsIndex })
+        this.getTxList(accountsIndex)
+    }
+    render() {
+        console.log("Render Wallet")
+        console.log(this.state.txlist)
         
-        return ( 
-            <div style={{display:'flex'}}>
+        return (
+            <div style={{ display: 'flex' }}>
                 <CssBaseline />
                 <Toolbar
                     toggleDrawer={this.toggleDrawer}
-                    handleChange={this.handleChange}
-                    state={this.state}
+                    getBalance={this.getBalance}
+                    networks={this.state.networks}
+                    accounts={this.state.accounts}
+                    mnemonic={this.state.mnemonic}
+                    currentAccount={this.state.currentAccount}
+                    choseAccount={this.choseAccount}
                 ></Toolbar>
-                <MyDrawer 
+                <MyDrawer
                     toggleDrawer={this.toggleDrawer}
                     open={this.state.open}
                 ></MyDrawer>
+                <AssetDetail
+                    txlist={this.state.txlist}
+                    accounts={this.state.accounts}
+                    currentAccount={this.state.currentAccount}
+                ></AssetDetail>
             </div>
         )
     }
 }
- 
+
 export default Wallet;
