@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/bishen-wallet/static/js/main.512a3def.chunk.js",
-    "main.js.map": "/bishen-wallet/static/js/main.512a3def.chunk.js.map",
+    "main.js": "/bishen-wallet/static/js/main.d91980db.chunk.js",
+    "main.js.map": "/bishen-wallet/static/js/main.d91980db.chunk.js.map",
     "runtime-main.js": "/bishen-wallet/static/js/runtime-main.a731d9aa.js",
     "runtime-main.js.map": "/bishen-wallet/static/js/runtime-main.a731d9aa.js.map",
     "static/js/2.411545a2.chunk.js": "/bishen-wallet/static/js/2.411545a2.chunk.js",
     "static/js/2.411545a2.chunk.js.map": "/bishen-wallet/static/js/2.411545a2.chunk.js.map",
     "index.html": "/bishen-wallet/index.html",
-    "precache-manifest.3de5d94396cc934b9d519ee6d2f7c9d4.js": "/bishen-wallet/precache-manifest.3de5d94396cc934b9d519ee6d2f7c9d4.js",
+    "precache-manifest.75f5be74f01567837efd15a547df15e1.js": "/bishen-wallet/precache-manifest.75f5be74f01567837efd15a547df15e1.js",
     "service-worker.js": "/bishen-wallet/service-worker.js",
     "static/js/2.411545a2.chunk.js.LICENSE": "/bishen-wallet/static/js/2.411545a2.chunk.js.LICENSE",
     "static/media/bgImg.jpg": "/bishen-wallet/static/media/bgImg.b6c409a6.jpg",
@@ -16,6 +16,6 @@
   "entrypoints": [
     "static/js/runtime-main.a731d9aa.js",
     "static/js/2.411545a2.chunk.js",
-    "static/js/main.512a3def.chunk.js"
+    "static/js/main.d91980db.chunk.js"
   ]
 }

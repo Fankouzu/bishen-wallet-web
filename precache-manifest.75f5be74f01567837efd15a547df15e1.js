@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e9fa9c73130b6365adcde0857f215df1",
+    "revision": "0d5d091613d981819fb2794b858685c1",
     "url": "/bishen-wallet/index.html"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bishen-wallet/static/js/2.411545a2.chunk.js.LICENSE"
   },
   {
-    "revision": "37eaa38fd940786312c1",
-    "url": "/bishen-wallet/static/js/main.512a3def.chunk.js"
+    "revision": "edd3eb9a692bc9a2ebf4",
+    "url": "/bishen-wallet/static/js/main.d91980db.chunk.js"
   },
   {
     "revision": "b5f6a286c96790591905",
