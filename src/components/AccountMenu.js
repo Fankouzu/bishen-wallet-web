@@ -64,7 +64,7 @@ export default function AccountMenu(props) {
                 onClick={handleClick}
             >
                 {
-                    props.accounts[0].address !== '0x0' ?
+                    accounts[currentAccount].address ?
                         <Jazzicon diameter={35} seed={jsNumberForAddress(accounts[currentAccount].address)} />
                         :
                         <AccountCircleIcon style={{ fontSize: 35 }} />

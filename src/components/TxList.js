@@ -35,17 +35,19 @@ const useStyles = makeStyles(theme => ({
             textAlign:'center',
             fontSize:10,
             height:20,
-            lineHeight:'14px',
+            lineHeight:'16px',
             marginTop:'8px'
         }
     },
     status:{
         background:theme.palette.success.main,
+        color:theme.palette.success.contrastText,
         padding:'2px 4px',
         borderRadius: 3,
     },
     statusError:{
         background:theme.palette.error.main,
+        color:theme.palette.error.contrastText,
         padding:'2px 4px',
         borderRadius: 3,
     },
@@ -95,6 +97,7 @@ export default function TxList(props) {
                                 secondary={
                                     <Typography
                                         component="div"
+                                        color="success.main"
                                         className={item.isError === 1 ? classes.statusError : classes.status}
                                     >
                                         {item.isError === 1 ? `错误` : `确认`}

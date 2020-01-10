@@ -8,6 +8,7 @@ import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import Slide from '@material-ui/core/Slide'
 import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
 var QRCode = require('qrcode.react')
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -32,14 +33,16 @@ export default function Deposit(props) {
             >
                 <Jazzicon diameter={100} seed={jsNumberForAddress(address)} />
                 <DialogTitle id="deposit-dialog-slide-title">
-                    账户 {currentAccount + 1}
+                    账户 { parseInt(currentAccount) + 1}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="deposit-dialog-slide-description">
-                        <QRCode value={`ethereum:` + address} size={256} />
+                        <QRCode value={`ethereum:` + address} size={200} />
                     </DialogContentText>
                     <CopyToClipboard text={address}>
-                        <Button className={classes.DialogActions}>{address}</Button>
+                        <Button className={classes.DialogActions}>
+                        <Typography noWrap>{address}</Typography>
+                        </Button>
                     </CopyToClipboard>
                 </DialogContent>
                 <DialogContent>

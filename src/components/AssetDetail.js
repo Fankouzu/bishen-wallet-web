@@ -92,6 +92,7 @@ const useStyles = makeStyles(theme => ({
         }
     },
     DialogActions: {
+        width:'100%'
     },
     TextField: {
         marginBottom: '10px'

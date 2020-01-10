@@ -22,7 +22,7 @@ class Wallet extends Component {
         let encrypt = localStorage.getItem("encrypt")
         let mnemonic = validatePasswordMnemonic(password, encrypt)
         let expires = new Date()
-        expires = expires.setDate(Date.now() + 1000 * 60 * 60 * 24 )
+        expires = expires.setDate(Date.now() + 1000 * 60 * 60 * 24)
 
         if (!mnemonic) {
             window.location.href = "./"
@@ -38,7 +38,7 @@ class Wallet extends Component {
             currentAccount: currentAccount || 0,
             networkId: networkId || 0,
             txlist: [],
-            expires:expires
+            expires: expires
         }
     }
 
@@ -85,16 +85,16 @@ class Wallet extends Component {
         }
     }
     getTxList = (currentAccount) => {
-        let networkName = this.state.networks[this.state.networkId].nameEN
-        let address = this.state.accounts[currentAccount].address
-        if (this.state.accounts[currentAccount].address !== undefined) {
+        try {
+            let networkName = this.state.networks[this.state.networkId].nameEN
+            let address = this.state.accounts[currentAccount].address
             let that = this
             getTxList(networkName, address).then(function (result) {
                 that.setState({ txlist: result })
                 console.log("TCL: Wallet -> getTxList -> result", result)
             })
-        } else {
-            window.location.reload()
+        } catch (e) {
+            getTxList(currentAccount)
         }
     }
     choseAccount = (event) => {
@@ -105,9 +105,6 @@ class Wallet extends Component {
     }
     render() {
         console.log("Render Wallet")
-        if (this.state.accounts[0].address === undefined) {
-            window.location.reload()
-        }
         return (
             <div style={{ display: 'flex' }}>
                 <CssBaseline />

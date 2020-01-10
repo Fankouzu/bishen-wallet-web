@@ -33,6 +33,7 @@ export default function Send(props) {
 
     const [variant,setVariant] = React.useState(['outlined','contained','outlined'])
     const [gasfee,setGasfee] = React.useState(0.00006)
+    console.log(gasfee)
     const handleChoseGasfee = (event) =>{
         const variant = ['outlined','outlined','outlined']
         const index = event.currentTarget.attributes.index.nodeValue

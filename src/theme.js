@@ -1,4 +1,3 @@
-import { red } from '@material-ui/core/colors'
 import { createMuiTheme } from '@material-ui/core/styles'
 
 // A custom theme for this app
@@ -17,16 +16,24 @@ const theme = createMuiTheme({
             light: '#ffd54f',
             main: '#ffc107',
             dark: "#ffa000",
-            contrastText: 'rgba(0, 0, 0, 0.87)',
+            contrastText: 'rgba(0, 0, 0, 0.7)',
         },
         success: {
-            light: '#00FF48',
-            main: '#7DF5A1',
-            dark: "#15963A",
-            contrastText: '#145C29',
+            light: '#81c784',
+            main: '#4caf50',
+            dark: "#388e3c",
+            contrastText: 'rgba(0, 0, 0, 0.7)',
+        },
+        Warning:{
+            light: '#ffb74d',
+            main: '#ff9800',
+            dark: "#f57c00",
         },
         error: {
-            main: red.A400,
+            light: '#e57373',
+            main: '#f44336',
+            dark: "#d32f2f",
+            contrastText: '#fff',
         },
         background: {
             default: '#fff',
