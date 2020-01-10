@@ -16,7 +16,7 @@ export const mainListItems = (
             <ListItemIcon>
                 <Eth />
             </ListItemIcon>
-            <ListItemText primary="开始" />
+            <ListItemText primary="以太坊" />
         </ListItem>
         <ListItem button>
             <ListItemIcon>

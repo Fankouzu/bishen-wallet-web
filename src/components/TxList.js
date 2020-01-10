@@ -63,10 +63,11 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function TxList(props) {
-    console.log("Render TxList")
     const classes = useStyles()
     const { txlist } = props
-    
+
+    console.log("Render TxList")
+
     return (
         <List className={classes.root}>
             {txlist.map((item, index) => {
@@ -118,7 +119,7 @@ export default function TxList(props) {
                                         className={classes.gasFee}
                                         color="textPrimary"
                                     >
-                                        Gas：{item.gasFee}
+                                        交易费：{item.gasFee}
                                     </Typography>
                                 }
                             />

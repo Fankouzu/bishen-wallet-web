@@ -11,7 +11,8 @@ import Button from '@material-ui/core/Button'
 import PropTypes from 'prop-types'
 import TxList from './TxList'
 import Copyright from "./Copyright"
-
+import Deposit from './Deposit'
+import Send from './Send'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -66,21 +67,48 @@ const useStyles = makeStyles(theme => ({
             marginBottom: theme.spacing(1),
         }
     },
-    sendBtn:{
-        paddingLeft:theme.spacing(4),
-        paddingRight:theme.spacing(4),
+    sendBtn: {
+        paddingLeft: theme.spacing(4),
+        paddingRight: theme.spacing(4),
         '& div': {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center'
         }
-    }
+    },
+    DialogTitle: {
+        textAlign: 'center',
+        '& .MuiDialog-paper': {
+            overflowY: 'unset'
+        },
+        '& .paper': {
+            position: 'absolute',
+            top: '-50px',
+            marginLeft: '50%!important',
+            left: '-50px'
+        },
+        '& .MuiDialogTitle-root': {
+            marginTop: 50,
+        }
+    },
+    DialogActions: {
+    },
+    TextField: {
+        marginBottom: '10px'
+    },
+    selectGasfee:{
+        marginBottom:'10px'
+    },
+    divider: {
+        marginTop:'15px',
+        marginBottom:'15px'
+    },
 }))
 
 function MyButton(props) {
     const { color, ...other } = props;
     const classes = useStyles(props);
-    return <Button className={classes.root} {...other} />;
+    return <Button className={classes.root} {...other} />
 }
 
 MyButton.propTypes = {
@@ -91,10 +119,21 @@ MyButton.propTypes = {
 export default function AssetDetail(props) {
     console.log("Render AssetDetail")
     const classes = useStyles()
-    const { accounts,currentAccount,...other } = props
-
+    const { accounts, currentAccount, ...other } = props
     const address = accounts[currentAccount].address
+
     
+    const [depositOpen, setDepositOpen] = React.useState(false)
+    const handleDepositOpen = () => {
+        setDepositOpen(true)
+    }
+
+    const [sendOpen, setSendOpen] = React.useState(false)
+    const handleSendOpen = () => {
+        setSendOpen(true)
+    }
+
+    //https://faucet.ropsten.be/donate/0x319a0cfD7595b0085fF6003643C7eD685269F851
     return (
         <main className={classes.content}>
             <div className={classes.appBarSpacer} />
@@ -118,10 +157,10 @@ export default function AssetDetail(props) {
                         <Box className={classes.main}>
                             <Grid container className={classes.sendBtn}>
                                 <Grid item xs={6}>
-                                    <MyButton color="red">接收</MyButton>
+                                    <MyButton color="red" onClick={handleDepositOpen}>存入</MyButton>
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <MyButton color="blue">发送</MyButton>
+                                    <MyButton color="blue" onClick={handleSendOpen}>发送</MyButton>
                                 </Grid>
                             </Grid>
                         </Box>
@@ -136,6 +175,23 @@ export default function AssetDetail(props) {
                     <Copyright />
                 </Box>
             </Container>
+            <Deposit 
+                {...other} 
+                address={address} 
+                currentAccount={currentAccount} 
+                depositOpen={depositOpen} 
+                setDepositOpen={setDepositOpen}
+                classes={classes}
+            ></Deposit>
+            <Send 
+                {...other} 
+                address={address} 
+                currentAccount={currentAccount} 
+                setSendOpen={setSendOpen}
+                sendOpen={sendOpen}
+                accounts={accounts}
+                classes={classes}
+            ></Send>
         </main>
     )
 }

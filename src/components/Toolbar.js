@@ -51,7 +51,7 @@ export default function MyToolbar(props){
     const classes = useStyles()
     const {networks, ...other} = props
 
-    const [networkId,setNetworkId] = React.useState(0)
+    const [networkId,setNetworkId] = React.useState(props.networkId)
     const handleChange = (event) => {
         setNetworkId(event.target.value)
         props.getBalance(event.target.value)
