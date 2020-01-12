@@ -1,10 +1,15 @@
 import { aesDecrypt } from './Aes'
+import {ethers} from 'ethers'
 var bip39 = require('bip39')
 const HDWallet = require('ethereum-hdwallet')
 
 export function mnemonicToAddress(mnemonic, n) {
     const hdwallet = HDWallet.fromMnemonic(mnemonic)
     return `0x${hdwallet.derive(`m/44'/60'/0'/0/` + n).getAddress().toString('hex')}`
+}
+export function mnemonicToPrivate(mnemonic, n) {
+    const hdwallet = HDWallet.fromMnemonic(mnemonic)
+    return hdwallet.derive(`m/44'/60'/0'/0/` + n).getPrivateKey().toString('hex')
 }
 export function jsNumberForAddress(address) {
     const addr = address.slice(2, 10)
@@ -24,11 +29,6 @@ export function validateMnemonic(mnemonic) {
         return bip39.validateMnemonic(mnemonic.replace(/ /g, '').split('').join(' '), bip39.wordlists.chinese_simplified)
     }
 }
-const createInfuraProvider = require('eth-json-rpc-infura/src/createProvider')
-const Ethjs = require('ethjs')
-
-const provider = createInfuraProvider({ network: 'mainnet' })
-export const eth = new Ethjs(provider)
 
 export function randMnemonic(mnemonic) {
     let randMnemonic = mnemonic.split(' ')
@@ -70,7 +70,7 @@ export function getAccounts(mnemonic){
     return accounts
 }
 export async function getTxList(networkName,address){
-    const ethapi = require('etherscan-api-cn').init('MIQDQDRUD5XENBPYQ8HAB3GJP2Z6T8ZZ1J',networkName)
+    const ethapi = require('etherscan-api-cn').init('MIQDQDRUD5XENBPYQ8HAB3GJP2Z6T8ZZ1J',networkName,3000)
     try{
         let txlist_ = await ethapi.account.txlist(address,5000000, 'latest')
         let txlist = txlist_.result.reverse()
@@ -101,4 +101,42 @@ export async function getTxList(networkName,address){
         console.log("TCL: getTxList -> e", e)
         return []
     }
+}
+const gasLimit = 21000
+export async function getGasfee(networkName){
+    let infuraProvider = new ethers.providers.InfuraProvider(networkName)
+    let gasPrice = await infuraProvider.getGasPrice()
+    return ethers.utils.formatEther(gasPrice)*gasLimit
+}
+export async function sendTransaction(to,networkName,mnemonic,currentAccount,value,myGasfee){
+    let infuraProvider = new ethers.providers.InfuraProvider(networkName)
+    let privateKey = mnemonicToPrivate(mnemonic,currentAccount)
+    let wallet = new ethers.Wallet(privateKey, infuraProvider)
+    let code = await infuraProvider.getCode(to)
+    if (code !== '0x') { throw new Error('目标地址不能是合约地址')}
+    
+    console.log("TCL: senTransaction -> myGasfee", myGasfee*1000000000000000000 / gasLimit)
+    let gasPrice = ethers.utils.bigNumberify(myGasfee*1000000000000000000 / gasLimit)
+
+    let tx = await wallet.sendTransaction({
+        gasLimit: gasLimit,
+        gasPrice: gasPrice,
+        to: to,
+        value: ethers.utils.bigNumberify(value*1000000000000000000)
+    })
+    return tx
+}
+export async function getBalance(mnemonic,networkName){
+    let accounts = []
+    let infuraProvider = new ethers.providers.InfuraProvider(networkName)
+    for (let i = 0; i < 10; i++) {
+        let address = mnemonicToAddress(mnemonic, i)
+        let balanceBN = await infuraProvider.getBalance(address)
+        let balance = ethers.utils.formatEther(balanceBN)
+        accounts[i] = {
+            address: address,
+            balance: balance
+        }
+    }
+    return accounts
 }

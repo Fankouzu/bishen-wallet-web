@@ -75,35 +75,7 @@ const useStyles = makeStyles(theme => ({
             flexDirection: 'column',
             alignItems: 'center'
         }
-    },
-    DialogTitle: {
-        textAlign: 'center',
-        '& .MuiDialog-paper': {
-            overflowY: 'unset'
-        },
-        '& .paper': {
-            position: 'absolute',
-            top: '-50px',
-            marginLeft: '50%!important',
-            left: '-50px'
-        },
-        '& .MuiDialogTitle-root': {
-            marginTop: 50,
-        }
-    },
-    DialogActions: {
-        width:'100%'
-    },
-    TextField: {
-        marginBottom: '10px'
-    },
-    selectGasfee:{
-        marginBottom:'10px'
-    },
-    divider: {
-        marginTop:'15px',
-        marginBottom:'15px'
-    },
+    }
 }))
 
 function MyButton(props) {
@@ -120,10 +92,13 @@ MyButton.propTypes = {
 export default function AssetDetail(props) {
     console.log("Render AssetDetail")
     const classes = useStyles()
-    const { accounts, currentAccount, ...other } = props
-    const address = accounts[currentAccount].address
+    const {  ...other } = props
 
-    
+    const [accounts,setAccounts] = React.useState({address:'0x0',balance:0})
+    React.useEffect(() => {
+        setAccounts(props.accounts[props.currentAccount])
+    }, [props.accounts,props.currentAccount])
+
     const [depositOpen, setDepositOpen] = React.useState(false)
     const handleDepositOpen = () => {
         setDepositOpen(true)
@@ -149,10 +124,10 @@ export default function AssetDetail(props) {
                         </Box>
                         <Box className={classes.main}>
                             <Typography variant="h3">
-                                {Math.round(accounts[currentAccount].balance * 10000) / 10000}ETH
+                                {Math.round(accounts.balance * 10000) / 10000}ETH
                             </Typography>
                             <Typography variant="subtitle1">
-                                {address}
+                                {accounts.address}
                             </Typography>
                         </Box>
                         <Box className={classes.main}>
@@ -167,7 +142,7 @@ export default function AssetDetail(props) {
                         </Box>
                         <Box className={classes.main}>
                             <Grid container>
-                                <TxList {...other} accounts={accounts} currentAccount={currentAccount}></TxList>
+                                <TxList {...other}></TxList>
                             </Grid>
                         </Box>
                     </Grid>
@@ -178,19 +153,17 @@ export default function AssetDetail(props) {
             </Container>
             <Deposit 
                 {...other} 
-                address={address} 
-                currentAccount={currentAccount} 
+                address={accounts.address} 
                 depositOpen={depositOpen} 
                 setDepositOpen={setDepositOpen}
                 classes={classes}
             ></Deposit>
             <Send 
                 {...other} 
-                address={address} 
-                currentAccount={currentAccount} 
+                address={accounts.address} 
+                balance={accounts.balance}
                 setSendOpen={setSendOpen}
                 sendOpen={sendOpen}
-                accounts={accounts}
                 classes={classes}
             ></Send>
         </main>

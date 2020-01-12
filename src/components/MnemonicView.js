@@ -73,7 +73,7 @@ function TabPanel(props) {
         >
             {value === index && <Box p={3}>{children}</Box>}
         </Typography>
-    );
+    )
 }
 
 TabPanel.propTypes = {
@@ -86,7 +86,7 @@ function a11yProps(index) {
     return {
         id: `simple-tab-${index}`,
         'aria-controls': `simple-tabpanel-${index}`,
-    };
+    }
 }
 
 

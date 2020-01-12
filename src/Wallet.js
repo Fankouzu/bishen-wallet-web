@@ -1,17 +1,13 @@
 import React, { Component } from 'react'
-import Web3 from 'web3'
 import cookie from 'react-cookies'
 import Toolbar from './components/Toolbar'
 import MyDrawer from './components/MyDrawer'
 import { networks } from './utils/networks'
 import AssetDetail from './components/AssetDetail'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { mnemonicToAddress, getTxList } from './utils/Tools'
+import { getTxList,getBalance } from './utils/Tools'
 import { validatePasswordMnemonic, getAccounts } from './utils/Tools'
 
-const createInfuraProvider = require('eth-json-rpc-infura/src/createProvider')
-const Ethjs = require('ethjs')
-const web3 = new Web3()
 
 class Wallet extends Component {
     constructor(props) {
@@ -61,28 +57,17 @@ class Wallet extends Component {
             || nextState.networkId !== this.state.networkId
     }
     getBalance = (networkId) => {
-        let accounts = []
         let mnemonic = this.state.mnemonic
         let that = this
         let networkName = this.state.networks[networkId].nameEN
-        let provider = createInfuraProvider({ network: networkName })
-        let eth = new Ethjs(provider)
-        this.setState({ txlist: [] })
-        for (let i = 0; i < 10; i++) {
-            let address = mnemonicToAddress(mnemonic, i)
-            eth.getBalance(address).then(function (res) {
-                let balance = web3.utils.fromWei(res, 'ether').toString()
-                accounts[i] = {
-                    address: address,
-                    balance: balance
-                }
-                if (accounts.length === 10) {
-                    that.setState({ accounts: accounts, networkId: networkId })
-                    cookie.save('networkId', networkId, { path: '/', expires: that.state.expires })
-                    that.getTxList(that.state.currentAccount)
-                }
-            })
+        if(this.state.txlist.length>0){
+            this.setState({ txlist: []})
         }
+        getBalance(mnemonic,networkName).then(function(accounts){
+            that.setState({ accounts: accounts , networkId: networkId })
+            cookie.save('networkId', networkId, { path: '/', expires: that.state.expires })
+            that.getTxList(that.state.currentAccount)
+        })
     }
     getTxList = (currentAccount) => {
         try {
@@ -90,8 +75,7 @@ class Wallet extends Component {
             let address = this.state.accounts[currentAccount].address
             let that = this
             getTxList(networkName, address).then(function (result) {
-                that.setState({ txlist: result })
-                console.log("TCL: Wallet -> getTxList -> result", result)
+                that.setState({ txlist: result , currentAccount: currentAccount })
             })
         } catch (e) {
             getTxList(currentAccount)
@@ -100,7 +84,7 @@ class Wallet extends Component {
     choseAccount = (event) => {
         let accountsIndex = event.currentTarget.attributes.index.nodeValue
         cookie.save('currentAccount', accountsIndex, { path: '/', expires: this.state.expires })
-        this.setState({ currentAccount: accountsIndex })
+        //this.setState({ currentAccount: accountsIndex })
         this.getTxList(accountsIndex)
     }
     render() {
@@ -125,6 +109,9 @@ class Wallet extends Component {
                 <AssetDetail
                     txlist={this.state.txlist}
                     accounts={this.state.accounts}
+                    mnemonic={this.state.mnemonic}
+                    networkId={this.state.networkId}
+                    networks={this.state.networks}
                     currentAccount={this.state.currentAccount}
                 ></AssetDetail>
             </div>

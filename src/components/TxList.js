@@ -97,7 +97,6 @@ export default function TxList(props) {
                                 secondary={
                                     <Typography
                                         component="div"
-                                        color="success.main"
                                         className={item.isError === 1 ? classes.statusError : classes.status}
                                     >
                                         {item.isError === 1 ? `错误` : `确认`}

@@ -49,11 +49,15 @@ export default function AccountMenu(props) {
     const handleClose = () => {
         setAnchorEl(null)
     }
-    const {accounts,currentAccount} = props
+    const {currentAccount} = props
     const choseAccount = (event) =>{
         setAnchorEl(null)
         props.choseAccount(event)
     }
+    const [accounts,setAccounts] = React.useState(props.accounts)
+    React.useEffect(() => {
+        setAccounts(props.accounts)
+    }, [props.accounts])
     return (
         <Fragment>
             <IconButton
