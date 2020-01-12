@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/bishen-wallet/precache-manifest.076a037707bb8587dbd4d93940106c2a.js"
+  "/bishen-wallet/precache-manifest.10e007dc3d707a7ccbe52d2cd1a167bb.js"
 );
 
 self.addEventListener('message', (event) => {
