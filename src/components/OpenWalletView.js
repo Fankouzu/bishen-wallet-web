@@ -53,7 +53,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function OpenWalletView() {
     const classes = useStyles()
-    console.log("Render OpenWalletView")
 
     const [remember, setRemember] = React.useState(false)
     const changeRemember = event => {
