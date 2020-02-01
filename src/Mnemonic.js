@@ -17,7 +17,6 @@ class Mnemonic extends Component {
             <MnemonicView
                 mnemonic_zh={this.state.mnemonic_zh}
                 mnemonic_en={this.state.mnemonic_en}
-                switchLang={this.switchLang}
             ></MnemonicView>
         )
     }
