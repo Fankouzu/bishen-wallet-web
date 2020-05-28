@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.js": "/bishen-wallet/static/js/main.e29cac99.chunk.js",
-    "main.js.map": "/bishen-wallet/static/js/main.e29cac99.chunk.js.map",
-    "runtime-main.js": "/bishen-wallet/static/js/runtime-main.a731d9aa.js",
-    "runtime-main.js.map": "/bishen-wallet/static/js/runtime-main.a731d9aa.js.map",
-    "static/js/2.e5650a57.chunk.js": "/bishen-wallet/static/js/2.e5650a57.chunk.js",
-    "static/js/2.e5650a57.chunk.js.map": "/bishen-wallet/static/js/2.e5650a57.chunk.js.map",
-    "index.html": "/bishen-wallet/index.html",
-    "precache-manifest.1e76c5c0795ca6fdcdfbcf0e3978350f.js": "/bishen-wallet/precache-manifest.1e76c5c0795ca6fdcdfbcf0e3978350f.js",
-    "service-worker.js": "/bishen-wallet/service-worker.js",
-    "static/js/2.e5650a57.chunk.js.LICENSE": "/bishen-wallet/static/js/2.e5650a57.chunk.js.LICENSE",
-    "static/media/bgImg.jpg": "/bishen-wallet/static/media/bgImg.b6c409a6.jpg",
-    "static/media/ethereum.png": "/bishen-wallet/static/media/ethereum.1909e591.png"
+    "main.js": "/bishen-wallet-web/static/js/main.50f76272.chunk.js",
+    "main.js.map": "/bishen-wallet-web/static/js/main.50f76272.chunk.js.map",
+    "runtime-main.js": "/bishen-wallet-web/static/js/runtime-main.129709f9.js",
+    "runtime-main.js.map": "/bishen-wallet-web/static/js/runtime-main.129709f9.js.map",
+    "static/js/2.3bc00b27.chunk.js": "/bishen-wallet-web/static/js/2.3bc00b27.chunk.js",
+    "static/js/2.3bc00b27.chunk.js.map": "/bishen-wallet-web/static/js/2.3bc00b27.chunk.js.map",
+    "index.html": "/bishen-wallet-web/index.html",
+    "precache-manifest.db6fd73a3609d3f7f2fd4a0b53b03122.js": "/bishen-wallet-web/precache-manifest.db6fd73a3609d3f7f2fd4a0b53b03122.js",
+    "service-worker.js": "/bishen-wallet-web/service-worker.js",
+    "static/js/2.3bc00b27.chunk.js.LICENSE": "/bishen-wallet-web/static/js/2.3bc00b27.chunk.js.LICENSE",
+    "static/media/bgImg.jpg": "/bishen-wallet-web/static/media/bgImg.b6c409a6.jpg",
+    "static/media/ethereum.png": "/bishen-wallet-web/static/media/ethereum.1909e591.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.a731d9aa.js",
-    "static/js/2.e5650a57.chunk.js",
-    "static/js/main.e29cac99.chunk.js"
+    "static/js/runtime-main.129709f9.js",
+    "static/js/2.3bc00b27.chunk.js",
+    "static/js/main.50f76272.chunk.js"
   ]
 }
